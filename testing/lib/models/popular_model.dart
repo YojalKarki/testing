@@ -19,9 +19,9 @@ class PopularDietsModel {
     required this.boxIsSelected,
   });
 
-  static List<PopularDietsModel> getCategories() {
-    List<PopularDietsModel> popularDiets = [];
-    popularDiets.add(
+  static List<PopularDietsModel> getPopularDiets() {
+    List<PopularDietsModel> popularDiet = [];
+    popularDiet.add(
       PopularDietsModel(
         name: 'Blue Berry Pancake',
         iconsPath: 'assets/icons/salad-svgrepo-com.svg',
@@ -33,9 +33,9 @@ class PopularDietsModel {
       ),
     );
 
-    popularDiets.add(
+    popularDiet.add(
       PopularDietsModel(
-          name: 'Salmon Nigiri',
+          name: 'Salmon Irini',
           iconsPath: 'assets/icons/salad-svgrepo-com.svg',
           boxColor:  Colors.red,
           level: 'Medium',
@@ -43,8 +43,6 @@ class PopularDietsModel {
           calories: '300kcl',
           boxIsSelected: true),
     );
-
-
-    return popularDiets;
+    return popularDiet;
   }
 }

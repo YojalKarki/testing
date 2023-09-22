@@ -62,13 +62,7 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
-    - assets/icons/salad-svgrepo-com.svg
-    - assets/icons/birthday-cake.png
-    - assets/icons/pie-cake-pastry-sweet-svgrepo-com.svg
-    - assets/icons/orange-juice-svgrepo-com.svg
-    - assets/icons/fast-food-pancake-svgrepo-com.svg
-    - assets/icons/fresh-bread-svgrepo-com.svg
-    - assets/icons/flat-of-bread-svgrepo-com.svg
+    - assets/icons/
     -
     -
     -
