@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:testing/pages/home_page.dart';
+import 'package:provider/provider.dart';
+import 'package:testing/pages/user.dart';
+import 'package:testing/routes/routes.dart';
 
 void main() {
   runApp(const MyApp());
@@ -11,9 +13,19 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return  const MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: HomePage(),
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+          create: (context) => User(),
+        ),
+      ],
+      builder: (context, child) {
+        return MaterialApp(
+          debugShowCheckedModeBanner: false,
+          initialRoute: RouteManager.loginPage,
+          onGenerateRoute: RouteManager.generateRoute,
+        );
+      },
     );
   }
 }

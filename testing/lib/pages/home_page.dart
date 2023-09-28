@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:provider/provider.dart';
 import 'package:testing/models/recommendation_diet.dart';
-
+import 'package:testing/pages/search.dart';
+import 'package:testing/pages/user.dart';
 import '../models/category_model.dart';
 import '../models/popular_model.dart';
+import '../routes/routes.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -77,7 +80,8 @@ class _HomePageState extends State<HomePage> {
                 ),
                 ListView.separated(
                   shrinkWrap: true,
-                  separatorBuilder: (context, index) => const SizedBox(
+                  separatorBuilder: (context, index) =>
+                  const SizedBox(
                     height: 25,
                   ),
                   padding: const EdgeInsets.only(
@@ -89,15 +93,16 @@ class _HomePageState extends State<HomePage> {
                     return Container(
                       height: 115,
                       decoration: BoxDecoration(
-                          color: Colors.blue.withOpacity(0.4),
-                          borderRadius: BorderRadius.circular(16),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Color(0xff1D1).withOpacity(0.7),
-                              offset: Offset(0, 10),
-                              blurRadius: 40,
-                              spreadRadius: 0,
-                            ),],),
+                        color: Colors.blue.withOpacity(0.4),
+                        borderRadius: BorderRadius.circular(16),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Color(0xff1D1).withOpacity(0.7),
+                            offset: Offset(0, 10),
+                            blurRadius: 40,
+                            spreadRadius: 0,
+                          ),
+                        ],),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.center,
@@ -140,7 +145,6 @@ class _HomePageState extends State<HomePage> {
                         ],
                       ),
                     );
-
                   },
                 ),
               ],
@@ -192,7 +196,8 @@ class _HomePageState extends State<HomePage> {
                       ),
                     ),
                     Text(
-                      '${diets[index].level} | ${diets[index].calories} | ${diets[index].duration}',
+                      '${diets[index].level} | ${diets[index]
+                          .calories} | ${diets[index].duration}',
                       style: const TextStyle(
                         fontWeight: FontWeight.w400,
                         fontSize: 13,
@@ -214,20 +219,21 @@ class _HomePageState extends State<HomePage> {
                       ),
                       child: Center(
                           child: Text(
-                        'View',
-                        style: TextStyle(
-                            color: diets[index].viewIsSelected
-                                ? Colors.white
-                                : Color(0xffC58BF2),
-                            fontSize: 18,
-                            fontWeight: FontWeight.w400),
-                      )),
+                            'View',
+                            style: TextStyle(
+                                color: diets[index].viewIsSelected
+                                    ? Colors.white
+                                    : Color(0xffC58BF2),
+                                fontSize: 18,
+                                fontWeight: FontWeight.w400),
+                          )),
                     )
                   ],
                 ),
               );
             },
-            separatorBuilder: (context, index) => const SizedBox(
+            separatorBuilder: (context, index) =>
+            const SizedBox(
               width: 25,
             ),
             itemCount: diets.length,
@@ -266,7 +272,7 @@ class _HomePageState extends State<HomePage> {
               right: 20,
             ),
             separatorBuilder: (BuildContext context, int index) =>
-                const SizedBox(width: 25),
+            const SizedBox(width: 25),
             itemCount: categories.length,
             itemBuilder: (context, index) {
               return Container(
@@ -317,6 +323,9 @@ class _HomePageState extends State<HomePage> {
         )
       ]),
       child: TextField(
+        onTap:  () {
+          showSearch(context: context, delegate: SearchFood());
+        },
         decoration: InputDecoration(
             filled: true,
             fillColor: Colors.white,
@@ -326,7 +335,7 @@ class _HomePageState extends State<HomePage> {
             prefixIcon: Padding(
               padding: const EdgeInsets.all(12),
               child:
-                  SvgPicture.asset('assets/icons/arrow-left-5-svgrepo-com.svg'),
+              SvgPicture.asset('assets/icons/arrow-left-5-svgrepo-com.svg'),
             ),
             suffixIcon: Container(
               color: Colors.white,
@@ -360,38 +369,45 @@ class _HomePageState extends State<HomePage> {
   AppBar appBar() {
     return AppBar(
       centerTitle: true,
-      title: const Text(
-        'BreakFast',
-        style: TextStyle(
-          color: Colors.black,
-          fontWeight: FontWeight.bold,
-          fontSize: 18,
-        ),
+      title: Consumer<User>(
+        builder: (BuildContext context, User value, Widget? child) { return Text(
+          'Welcome ${value.username}',
+          style: TextStyle(
+            color: Colors.black,
+            fontWeight: FontWeight.bold,
+            fontSize: 18,
+          ),
+        );},
+
       ),
       backgroundColor: Colors.white,
-      leading: GestureDetector(
-        onTap: () {},
+      leading:GestureDetector(
+        onTap: () {
+          Navigator.of(context).pushNamed(RouteManager.loginPage);
+        },
         child: Container(
             margin: const EdgeInsets.all(10),
             decoration: BoxDecoration(
                 color: Colors.white, borderRadius: BorderRadius.circular(10)),
             child:
-                SvgPicture.asset('assets/icons/arrow-left-5-svgrepo-com.svg')),
+            SvgPicture.asset('assets/icons/arrow-left-5-svgrepo-com.svg')),
       ),
-      actions: [
-        GestureDetector(
-          onTap: () {},
-          child: Container(
-            margin: const EdgeInsets.all(10),
-            alignment: Alignment.center,
-            width: 37,
-            decoration: BoxDecoration(
-                color: Colors.white, borderRadius: BorderRadius.circular(10)),
-            child: SvgPicture.asset(
-                'assets/icons/dots-3-horizontal-svgrepo-com.svg'),
-          ),
-        ),
-      ],
+
+    actions: [
+    GestureDetector(
+    onTap: () {},
+    child: Container(
+    margin: const EdgeInsets.all(10),
+    alignment: Alignment.center,
+    width: 37,
+    decoration: BoxDecoration(
+    color: Colors.white, borderRadius: BorderRadius.circular(10)),
+    child: SvgPicture.asset(
+    'assets/icons/dots-3-horizontal-svgrepo-com.svg'),
+    ),
+    ),
+    ]
+    ,
     );
   }
 }
