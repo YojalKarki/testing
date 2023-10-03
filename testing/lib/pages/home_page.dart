@@ -383,14 +383,12 @@ class _HomePageState extends State<HomePage> {
       backgroundColor: Colors.white,
       leading:GestureDetector(
         onTap: () {
-          Navigator.of(context).pushNamed(RouteManager.loginPage);
         },
         child: Container(
             margin: const EdgeInsets.all(10),
             decoration: BoxDecoration(
                 color: Colors.white, borderRadius: BorderRadius.circular(10)),
-            child:
-            SvgPicture.asset('assets/icons/arrow-left-5-svgrepo-com.svg')),
+           ),
       ),
 
     actions: [

@@ -1,8 +1,7 @@
-
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:testing/pages/user.dart';
-import 'package:testing/routes/routes.dart';
+import 'package:page_transition/page_transition.dart';
+
+import 'home_page.dart';
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -29,7 +28,6 @@ class _MainPageState extends State<LoginPage> {
   TextEditingController passwordController = TextEditingController();
   bool passToggle = true;
 
-
   @override
   void initState() {
     super.initState();
@@ -49,124 +47,128 @@ class _MainPageState extends State<LoginPage> {
       body: Center(
         child: Padding(
           padding: const EdgeInsets.all(20),
-          child: Form(
-            key: _formField,
-            child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-              Text(
-                'Welcome',
-                style: TextStyle(
-                  fontSize: 32,
-                  fontWeight: FontWeight.w800,
-                  color: Colors.purple
+          child:
+          Form(key: _formField,
+            child:
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children:
+              [
+                const Text('Welcome', style:TextStyle(
+                      fontSize: 32,
+                      fontWeight: FontWeight.w800,
+                      color: Colors.purple
+                  ),
                 ),
-              ),
-              const SizedBox(
-                height: 30,
-              ),
-              AppTextField(
-                controller: emailController,
-                hint: 'Please enter your e-mail',
-                keyboardType: TextInputType.emailAddress,
-                icons: Icon(Icons.email),
-                validator: (value) {
-                  bool emailValid = RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\[a-zA-Z]+").hasMatch(value!);
-                  if(value.isEmpty) {
-                    return "Enter Email";
-                  }
-
-                  else if(!emailValid){
-                    return "Enter Valid email";
-                  }
-                },
-              ),
-              const SizedBox(
-                height: 30,
-              ),
-              AppTextField(
-                controller: nameController,
-                hint: 'Please enter your name!',
-                keyboardType: TextInputType.text, icons: const Icon(Icons.person),
-                validator: (value) {
-                  if(nameController.text.isEmpty) {
-                    return "Please Enter your name";
-                  }
-                },
-
-              ),
-              const SizedBox(
-                height: 30,
-              ),
-              AppTextField(
-                controller: passwordController,
-                hint: 'Please enter your password',
-                keyboardType: TextInputType.visiblePassword, icons: Icon(Icons.lock),
-                validator: (value) {
-                  if(value.isEmpty) {
-                    return "Enter email";
-                  }
-                  else if(passwordController.text.length < 8) {
-                    return "Password must be more than 8 characters";
-                  }
-                },
-
-              ),
-              const SizedBox(
-                height: 30,
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: ElevatedButton(
-                  onPressed: () {
-                    context.read<User>().username = nameController.text;
-                    Navigator.of(context).pushNamed(RouteManager.homePage);
-                    if(_formField.currentState!.validate()) {
-                      emailController.clear();
-                      passwordController.clear();
-                      nameController.clear();
+                const SizedBox(height: 30,
+                ),
+                TextFormField
+                  (
+                  validator:
+                      (value) {
+                    bool emailValid = RegExp(
+                        r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                        .hasMatch(value!);
+                    if (value.isEmpty) {
+                      return "Please enter your email";
+                    } else if (!emailValid) {
+                      return "Please enter valid email";
+                    }
+                    return null;
+                  },
+                  keyboardType: TextInputType.emailAddress,
+                  controller: emailController,
+                  decoration: InputDecoration(
+                    prefixIcon: const Icon(Icons.email),
+                    enabledBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.blue.shade400)),
+                    focusedBorder: const OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.blue)),
+                    hintText: 'eg@gmail.com',
+                    hintStyle: TextStyle(
+                      color: Colors.grey.shade400,
+                      fontSize: 14,
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 30,
+                ),
+                TextFormField(
+                  validator: (value) {
+                    if(value!.isEmpty) {
+                      return "Enter your Username";
                     }
                   },
-                  child: const Text('Submit'),
+                  keyboardType: TextInputType.name,
+                  controller: nameController,
+                  decoration: InputDecoration(
+                    prefixIcon: const Icon(Icons.person),
+                    enabledBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.blue.shade400)),
+                    focusedBorder: const OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.blue)),
+                    hintText: 'Peter Rambo',
+                    hintStyle: TextStyle(
+                      color: Colors.grey.shade400,
+                      fontSize: 14,
+                    ),
+                  ),
                 ),
-              ),
-            ]),
+                const SizedBox(height: 30,),
+                TextFormField(
+                  validator: (value) {
+                    if (value!.isEmpty) {
+                      return "Please enter your password";
+                    } else if (passwordController.text.length < 8) {
+                      return "Password must be more than 8 characters";
+                    }
+                    return null;
+                  },
+                  keyboardType: TextInputType.name,
+                  controller: passwordController,
+                  obscureText: passToggle,
+                  decoration: InputDecoration(
+                    prefixIcon: const Icon(Icons.lock),
+                    suffixIcon: InkWell(onTap: () {
+                      setState(() {
+                        passToggle = !passToggle;
+                    });},
+                    child: Icon(passToggle ? Icons.visibility : Icons.visibility_off),
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.blue.shade400)),
+                    focusedBorder: const OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.blue)),
+                    hintText: 'Password',
+                    hintStyle: TextStyle(
+                      color: Colors.grey.shade400,
+                      fontSize: 14,
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 40,),
+
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: ElevatedButton(
+                    onPressed: () {
+                      if (_formField.currentState!.validate()) {
+                        Navigator.pushReplacement(
+                            context,
+                            PageTransition(
+                                child: const HomePage(),
+                                type: PageTransitionType.rightToLeft));
+                        emailController.clear();
+                        passwordController.clear();
+                        nameController.clear();
+                      }
+                    },
+                    child: const Text('Login'),
+                  ),
+                ),
+              ],),
           ),
         ),
-      ),
-    );
-  }
-}
-
-class AppTextField extends StatelessWidget {
-  const AppTextField(
-      {super.key,
-      required this.controller,
-      required this.hint,
-      required this.keyboardType, required this.icons, required this.validator});
-
-  final TextEditingController controller;
-  final String hint;
-  final TextInputType keyboardType;
-  final Icon icons;
-  final FormFieldValidator validator;
-
-  @override
-  Widget build(BuildContext context) {
-    return TextFormField(
-      validator: validator,
-      controller: controller,
-      //obscureText: true,
-      keyboardType: keyboardType,
-      decoration: InputDecoration(
-        prefixIcon: icons,
-        focusedBorder: const OutlineInputBorder(
-          borderSide: BorderSide(color: Colors.black54),
-        ),
-        enabledBorder: const OutlineInputBorder(
-          borderSide: BorderSide(color: Colors.purple),
-        ),
-        border: const OutlineInputBorder(),
-        labelText: hint,
-        labelStyle: const TextStyle(color: Colors.black54),
       ),
     );
   }

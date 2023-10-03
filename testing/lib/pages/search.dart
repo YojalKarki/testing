@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:testing/routes/routes.dart';
 
 class SearchFood extends SearchDelegate {
   @override
@@ -9,7 +10,7 @@ class SearchFood extends SearchDelegate {
           Icons.close,
         ),
         onPressed: () {
-          query = "";
+          Navigator.pushReplacement(context, RouteManager.homePage as Route<Object?>);
         },
       ),
     ];
